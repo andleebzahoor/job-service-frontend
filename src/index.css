@@ -1,0 +1,8 @@
+
+@import "tailwindcss";
+
+:root {
+  --color-green: #1F4B3F;
+  --font-style: 'Poppins', sans-serif;
+  --font-utopia: "Utopia Std", serif;
+}
