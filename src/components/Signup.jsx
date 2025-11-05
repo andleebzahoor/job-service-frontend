@@ -349,6 +349,7 @@ const SignUp = ({ shows, onClose, onSignUp }) => {
             className={`w-full py-2 rounded-lg text-white font-semibold ${
               isFormValid ? "bg-green-600" : "bg-green-400 cursor-not-allowed"
             }`}
+            
           >
             Sign Up
           </button>

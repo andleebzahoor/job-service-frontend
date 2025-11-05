@@ -107,7 +107,7 @@ const AdminDashboard = () => {
                   <td className="p-2">{u.username}</td>
                   <td className="p-2">{u.email}</td>
                   <td className="p-2 text-green-600 font-semibold">
-                    {u.role === "admin" ? "👑 Admin" : "👤 User"}
+                    {u.role === "admin" ? "👑 Admin" : "{u.role}"}
                   </td>
                 </tr>
               ))}

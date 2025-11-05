@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from './Nav';
-import Work from './Work.jsx';
-import Rating from './Rating.jsx';
-import Footer from './Footer.jsx';
+
 import Display from './Display.jsx';
 import axios from "axios";
 import Usingapp from './Usingapp.jsx';
@@ -38,7 +36,7 @@ const Header = () => {
 <div className="w-full min-h-screen bg-[url('/assets/bg-clear.png')] bg-cover bg-center relative flex flex-col overflow-x-hidden"
      style={{ backgroundColor: "var(--color-green)" }}>
   
-  <Navbar />
+  
   <hr className="w-full border-t border-white/30" />
 
   <main className="flex flex-col lg:flex-row items-center justify-between w-full px-6 lg:px-20 mt-10 gap-10">
@@ -83,10 +81,7 @@ const Header = () => {
   <Display providers={providers} loading={loading} error={error} searchQuery={searchQuery} />
 
   {/* Work section stays below */}
-  <Work />
   
-  <Rating/>
-  <Footer/>
 </div>
   );
 };
