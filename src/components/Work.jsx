@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from "react";
+import Usingapp from "./Usingapp.jsx"
 
 const Work = () => {
   const [role, setRole] = useState(""); // "", "choose", or "provider"
@@ -33,55 +34,41 @@ const Work = () => {
   const isFirstLogin = localStorage.getItem("first_login");
   const storedRole = localStorage.getItem("user_role");
 
-  if (storedUser) {
-    setUser(JSON.parse(storedUser));
-  } else {
-    return; // not logged in
-  }
+  if (!storedUser) return;
 
-  // 🟢 First login → ask role
-  if (
-    isFirstLogin === "true" &&
-    (storedRole === null || storedRole === "user")
-  ) {
+  const parsedUser = JSON.parse(storedUser);
+    setUser(parsedUser);
+
+  // 🟢 First login → show role chooser
+  if (isFirstLogin === "true" && (!storedRole || storedRole === "user")) {
     setRole("choose");
     return;
   }
 
-  // 🟠 If already chose client → go home
+  // 🟠 Client → done, remove flag
   if (storedRole === "client") {
     localStorage.removeItem("first_login");
-    return; // ✅ stay here one time, user may click client button
-  }
-
-  // 🔵 If provider and already submitted form → go home
-  const providerExists = localStorage.getItem(`serviceProvider_${JSON.parse(storedUser).id}`);
-  if (storedRole === "provider" && providerExists) {
-    window.location.replace("/");
     return;
   }
 
-  // 🔴 Provider but form not submitted → open provider form
-  if (storedRole === "provider" && !providerExists) {
-    setRole("provider");
-    return;
+  // 🔵 Provider
+  if (storedRole === "provider") {
+    const providerExists = localStorage.getItem(`serviceProvider_${parsedUser.id}`);
+    if (providerExists) {
+      // ✅ Only redirect once if first_login still true
+      if (isFirstLogin === "true") {
+        localStorage.removeItem("first_login");
+        window.location.replace("/");
+      }
+    } else {
+      // Provider but hasn’t filled form → show form
+      setRole("provider");
+    }
   }
 }, []);
 
-  useEffect(() => {
-    const loggedUser = JSON.parse(localStorage.getItem("auth_account"));
-    const storedRole = localStorage.getItem("user_role");
 
-    if (!loggedUser) return;
-
-    if (storedRole === "provider") {
-      const providerExists = localStorage.getItem(`serviceProvider_${loggedUser.id}`);
-      if (providerExists) {
-        window.location.href = "/";
-      }
-    }
-  }, []);
-
+  
   useEffect(() => {
     if (user && user.id) {
       const saved = localStorage.getItem(`serviceProvider_${user.id}`);
@@ -107,7 +94,7 @@ const Work = () => {
   useEffect(() => {
     if (role) {
       const timeout = setTimeout(() => setShowModal(true), 200);
-      return () => clearTimeout(timeout);
+       return () => clearTimeout(timeout);
     } else {
       setShowModal(false);
     }
@@ -162,7 +149,7 @@ const Work = () => {
       const data = await response.json().catch(() => ({}));
 
       if (response.ok) {
-        const correctPhoto = `user_${currentUser.id}.jpg`;
+        
 
         const providerToSave = {
           user_id: currentUser.id,
@@ -173,8 +160,11 @@ const Work = () => {
           experience: providerData.experience,
           availability: providerData.availability,
           rate: providerData.rate,
-          photo: correctPhoto,
+          
         };
+        if (providerData.photo) {
+  providerToSave.photo = `user_${currentUser.id}.jpg`;
+}
 
         localStorage.setItem(
           `serviceProvider_${currentUser.id}`,
@@ -209,14 +199,16 @@ const Work = () => {
     }
 
     localStorage.setItem("user_role", selectedRole);
-    localStorage.removeItem("first_login");
+    const updatedUser = { ...user, role: selectedRole };
+    localStorage.setItem("auth_account", JSON.stringify(updatedUser));
+    // localStorage.removeItem("first_login");
 
     if (selectedRole === "provider") {
       // open provider modal in this page
       setRole("provider");
     } else {
       // client → go home
-      window.location.replace("/");
+       window.location.href = "/"; 
     }
   };
 
@@ -230,13 +222,15 @@ const Work = () => {
         <button
           onClick={() => window.location.href = "/"}
           className="bg-blue-600 text-white px-6 py-4 rounded-lg shadow hover:bg-blue-700 transition"
-        >
+        >7
           I am a Client
         </button>
 
         <button
           onClick={() => {
-            if (!user) {
+            const stored = localStorage.getItem("auth_account");
+            const loggedUser = stored ? JSON.parse(stored) : null;
+            if (!loggedUser) {
               alert("⚠️ Please log in first");
               return;
             }
@@ -326,6 +320,7 @@ const Work = () => {
           </div>
         </div>
       )}
+      <Usingapp/> 
     </div>
   );
 };

@@ -26,7 +26,7 @@ const Display = ({ providers, loading, error, searchQuery }) => {
           const previewImage = fixedPhoto
             ? (fixedPhoto.startsWith("http")
               ? fixedPhoto
-              : `https://job-service-backend.onrender.com/uploads/${fixedPhoto}`)
+              : `https://job-service-backend.onrender.com/${fixedPhoto}`)
             : defaultAvatar;
 
           return (

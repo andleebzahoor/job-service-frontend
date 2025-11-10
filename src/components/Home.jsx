@@ -4,6 +4,7 @@ import Header from './Header.jsx'
 import Work from './Work.jsx'
 import Rating from './Rating.jsx'
 import Footer from './Footer'
+import ComplaintBox from './Complaint.jsx'
 
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
     <Header/>
     <Work/>
     <Rating/>
+    <ComplaintBox/>
     <Footer/></div>
   )
 }

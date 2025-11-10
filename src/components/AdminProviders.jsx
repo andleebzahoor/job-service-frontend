@@ -9,7 +9,10 @@ export default function AdminProviders() {
   const fetchProviders = () => {
     fetch("https://job-service-backend.onrender.com/admin/providers")
       .then((res) => res.json())
-      .then((data) => setProviders(data.providers))
+      .then((data) => {
+      // ✅ Only show approved providers
+       setProviders(data.providers); 
+    })
       .catch(() => console.log("Error fetching providers"));
   };
 
@@ -66,6 +69,8 @@ export default function AdminProviders() {
     <th className="p-2 border">Availability</th>
     <th className="p-2 border">Experience</th>
     <th className="p-2 border">Rate</th>
+    <th className="p-2 border">Contact</th>
+    
     <th className="p-2 border">Status</th>
     <th className="p-2 border">Actions</th>
   </tr>
@@ -81,6 +86,7 @@ export default function AdminProviders() {
 <td>{p.availability}</td>
 <td>{p.experience}</td>
 <td>{p.rate}</td>
+<td>{p.contact}</td>
 
       
       <td className="border p-2 font-bold">

@@ -11,8 +11,11 @@ import Support from "./components/Support";
 import Services from "./components/Service";
 import AdminDashboard from "./components/AdminDashboard";
 import AdminProviders from "./components/AdminProviders";
+import AdminComplaints from "./components/AdminComplaints";
+import AdminReviews from "./components/AdminReviews";
 import Work from "./components/Work";   // ✅ Import Work page
 import Home from "./components/Home"
+
 
 // ✅ Admin Route Component
 function AdminRoute({ children }) {
@@ -31,16 +34,17 @@ function App() {
 useEffect(() => {
   const user = JSON.parse(localStorage.getItem("auth_account"));
   const firstLogin = localStorage.getItem("first_login");
-  
-  // Only redirect if not already on /work
+
   if (
     firstLogin === "true" &&
-    (!user?.role || user.role === "") &&
-    window.location.pathname !== "/work"
-  ) {
+    (!user?.role || user.role === "")) 
+   {
     window.location.replace("/work");
+    localStorage.setItem("first_login", "false");
   }
 }, []);
+
+
 
 
 
@@ -73,6 +77,16 @@ useEffect(() => {
         <Route path="/admin/providers" element={
           <AdminRoute><AdminProviders /></AdminRoute>
         } />
+        <Route
+            path="/admin/complaints"
+             element={
+    <AdminRoute>
+      <AdminComplaints />
+    </AdminRoute>
+  }
+/>
+<Route path="/admin/reviews" element={<AdminRoute> <AdminReviews /></AdminRoute>} />
+
       </Routes>
     </Router>
   );

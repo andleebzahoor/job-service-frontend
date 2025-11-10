@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { LogOut, Users, Wrench, LayoutDashboard, Settings, Bell } from "lucide-react";
+import { LogOut, Users, Wrench, LayoutDashboard, Settings, Bell, Star } from "lucide-react";
+
 
 const AdminDashboard = () => {
   const username = JSON.parse(localStorage.getItem("auth_account"))?.username;
@@ -37,22 +38,28 @@ const AdminDashboard = () => {
 
         <nav className="space-y-4">
           <Link className="block hover:bg-green-600 p-2 rounded flex items-center gap-2" to="/admin">
-            <LayoutDashboard size={18}/> Dashboard
+            <LayoutDashboard size={18} /> Dashboard
           </Link>
-          <Link className="block hover:bg-green-600 p-2 rounded flex items-center gap-2" to="/admin/users">
-            <Users size={18}/> Users
-          </Link>
+
           <Link className="block hover:bg-green-600 p-2 rounded flex items-center gap-2" to="/admin/providers">
-            <Wrench size={18}/> Providers
+            <Wrench size={18} /> Providers
           </Link>
-          <Link className="block hover:bg-green-600 p-2 rounded flex items-center gap-2" to="#">
-            <Settings size={18}/> System
+          <Link className="block hover:bg-green-600 p-2 rounded flex items-center gap-2" to="/admin/complaints">
+            <Settings size={18} /> System
           </Link>
+          <Link
+            className="block hover:bg-green-600 p-2 rounded flex items-center gap-2"
+            to="/admin/reviews"
+          >
+            <Star size={18} /> Review
+          </Link>
+
+
         </nav>
 
         <div className="mt-auto">
           <Link to="/logout" className="flex items-center gap-2 bg-red-600 hover:bg-red-700 p-2 rounded">
-            <LogOut size={18}/> Logout
+            <LogOut size={18} /> Logout
           </Link>
         </div>
       </aside>
@@ -64,7 +71,7 @@ const AdminDashboard = () => {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-green-700">Dashboard</h1>
           <div className="flex items-center gap-4">
-            <Bell className="cursor-pointer" size={22}/>
+            <Bell className="cursor-pointer" size={22} />
             <span className="font-semibold text-gray-700">👋 Welcome, {username}</span>
           </div>
         </div>
@@ -107,7 +114,7 @@ const AdminDashboard = () => {
                   <td className="p-2">{u.username}</td>
                   <td className="p-2">{u.email}</td>
                   <td className="p-2 text-green-600 font-semibold">
-                    {u.role === "admin" ? "👑 Admin" : "{u.role}"}
+                    {u.role === "admin" ? "👑 Admin" : u.role === "provider" ? "Service Provider" : "Client"}
                   </td>
                 </tr>
               ))}
